@@ -21,6 +21,8 @@ Original file is located at
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+
 """# Feature Crosses
 
 **Learning Objectives:**
@@ -34,7 +36,6 @@ Original file is located at
 First, as we've done in previous exercises, let's define the input and create the data-loading code.
 """
 
-from __future__ import print_function
 
 import math
 
@@ -333,57 +334,6 @@ bucketized_longitude = tf.feature_column.bucketized_column(
 In the preceding code block, two real valued columns (namely `households` and `longitude`) have been transformed into bucketized feature columns. Your task is to bucketize the rest of the columns, then run the code to train the model. There are various heuristics to find the range of the buckets. This exercise uses a quantile-based technique, which chooses the bucket boundaries in such a way that each bucket has the same number of examples.
 """
 
-def construct_feature_columns():
-  """Construct the TensorFlow Feature Columns.
-
-  Returns:
-    A set of feature columns
-  """ 
-  households = tf.feature_column.numeric_column("households")
-  longitude = tf.feature_column.numeric_column("longitude")
-  latitude = tf.feature_column.numeric_column("latitude")
-  housing_median_age = tf.feature_column.numeric_column("housing_median_age")
-  median_income = tf.feature_column.numeric_column("median_income")
-  rooms_per_person = tf.feature_column.numeric_column("rooms_per_person")
-  
-  # Divide households into 7 buckets.
-  bucketized_households = tf.feature_column.bucketized_column(
-    households, boundaries=get_quantile_based_boundaries(
-      training_examples["households"], 7))
-
-  # Divide longitude into 10 buckets.
-  bucketized_longitude = tf.feature_column.bucketized_column(
-    longitude, boundaries=get_quantile_based_boundaries(
-      training_examples["longitude"], 10))
-
-  #
-  # YOUR CODE HERE: bucketize the following columns, following the example above:
-  #
-  bucketized_latitude = 
-  bucketized_housing_median_age = 
-  bucketized_median_income =
-  bucketized_rooms_per_person =
-  
-  feature_columns = set([
-    bucketized_longitude,
-    bucketized_latitude,
-    bucketized_housing_median_age,
-    bucketized_households,
-    bucketized_median_income,
-    bucketized_rooms_per_person])
-  
-  return feature_columns
-
-_ = train_model(
-    learning_rate=1.0,
-    steps=500,
-    batch_size=100,
-    feature_columns=construct_feature_columns(),
-    training_examples=training_examples,
-    training_targets=training_targets,
-    validation_examples=validation_examples,
-    validation_targets=validation_targets)
-
 """### Solution
 
 Click below for a solution.
@@ -468,73 +418,6 @@ If we cross the `latitude` and `longitude` features (supposing, for example, tha
 
 Refer to the TensorFlow API docs for [`crossed_column()`](https://www.tensorflow.org/api_docs/python/tf/feature_column/crossed_column) to build the feature column for your cross. Use a `hash_bucket_size` of `1000`.
 """
-
-def construct_feature_columns():
-  """Construct the TensorFlow Feature Columns.
-
-  Returns:
-    A set of feature columns
-  """ 
-  households = tf.feature_column.numeric_column("households")
-  longitude = tf.feature_column.numeric_column("longitude")
-  latitude = tf.feature_column.numeric_column("latitude")
-  housing_median_age = tf.feature_column.numeric_column("housing_median_age")
-  median_income = tf.feature_column.numeric_column("median_income")
-  rooms_per_person = tf.feature_column.numeric_column("rooms_per_person")
-  
-  # Divide households into 7 buckets.
-  bucketized_households = tf.feature_column.bucketized_column(
-    households, boundaries=get_quantile_based_boundaries(
-      training_examples["households"], 7))
-
-  # Divide longitude into 10 buckets.
-  bucketized_longitude = tf.feature_column.bucketized_column(
-    longitude, boundaries=get_quantile_based_boundaries(
-      training_examples["longitude"], 10))
-  
-  # Divide latitude into 10 buckets.
-  bucketized_latitude = tf.feature_column.bucketized_column(
-    latitude, boundaries=get_quantile_based_boundaries(
-      training_examples["latitude"], 10))
-
-  # Divide housing_median_age into 7 buckets.
-  bucketized_housing_median_age = tf.feature_column.bucketized_column(
-    housing_median_age, boundaries=get_quantile_based_boundaries(
-      training_examples["housing_median_age"], 7))
-  
-  # Divide median_income into 7 buckets.
-  bucketized_median_income = tf.feature_column.bucketized_column(
-    median_income, boundaries=get_quantile_based_boundaries(
-      training_examples["median_income"], 7))
-  
-  # Divide rooms_per_person into 7 buckets.
-  bucketized_rooms_per_person = tf.feature_column.bucketized_column(
-    rooms_per_person, boundaries=get_quantile_based_boundaries(
-      training_examples["rooms_per_person"], 7))
-  
-  # YOUR CODE HERE: Make a feature column for the long_x_lat feature cross
-  long_x_lat = 
-  
-  feature_columns = set([
-    bucketized_longitude,
-    bucketized_latitude,
-    bucketized_housing_median_age,
-    bucketized_households,
-    bucketized_median_income,
-    bucketized_rooms_per_person,
-    long_x_lat])
-  
-  return feature_columns
-
-_ = train_model(
-    learning_rate=1.0,
-    steps=500,
-    batch_size=100,
-    feature_columns=construct_feature_columns(),
-    training_examples=training_examples,
-    training_targets=training_targets,
-    validation_examples=validation_examples,
-    validation_targets=validation_targets)
 
 """### Solution
 
