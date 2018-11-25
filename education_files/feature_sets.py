@@ -280,6 +280,7 @@ def train_model(
   plt.plot(training_rmse, label="training")
   plt.plot(validation_rmse, label="validation")
   plt.legend()
+  plt.show()
 
   return linear_regressor
 
@@ -353,7 +354,7 @@ selected_training_examples = select_and_transform_features(training_examples)
 selected_validation_examples = select_and_transform_features(validation_examples)
 
 _ = train_model(
-    learning_rate=0.01,
+    learning_rate=0.1,
     steps=500,
     batch_size=5,
     training_examples=selected_training_examples,
